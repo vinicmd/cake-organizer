@@ -1,7 +1,10 @@
 import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, View, Text, ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import Feather  from 'react-native-vector-icons/Feather'
+
 import { theme } from '../global/styles/theme'
+
 
 export function HomeScreen() {
   const data = [
@@ -11,7 +14,7 @@ export function HomeScreen() {
       description: 'Bolo Alpino com trufas',
       weight: 2,
       deliveryHour: '14:30',
-      status: 'delivered'
+      status: 'Entregue'
     },
     {
       id: 2,
@@ -19,7 +22,7 @@ export function HomeScreen() {
       description: 'Bolo Alpino com trufas',
       weight: 2,
       deliveryHour: '16:30',
-      status: 'delayed'
+      status: 'Atrasado'
     },
     {
       id: 3,
@@ -27,7 +30,7 @@ export function HomeScreen() {
       description: 'Bolo Alpino com trufas',
       weight: 2,
       deliveryHour: '16:30',
-      status: 'working'
+      status: 'Aguardando'
     },
     {
       id: 4,
@@ -35,10 +38,12 @@ export function HomeScreen() {
       description: 'Bolo Alpino com trufas',
       weight: 2,
       deliveryHour: '16:30',
-      status: 'working'
+      status: 'Aguardando'
     },
 
   ]
+
+
   return (
     <View style={styles.main}>
       <View style={styles.title}>
@@ -51,13 +56,23 @@ export function HomeScreen() {
       </View>
 
         <ScrollView style={styles.scrollView} >
-          <View style={styles.order}>
-            <Text style={styles.orderName}>{(data[0].name).toUpperCase()}</Text>
-            <Text style={styles.orderDescription}>{(data[0].description).toUpperCase()}</Text>
-            <Text style={styles.orderDescription}>{data[0].weight} Kg</Text>
-            <Text style={styles.deliveryHour}>{data[0].deliveryHour}</Text>
+          {data.map(data => {
+            return (
+              <View style={styles.order} key={data.id} >
+                <Text style={styles.orderName}>{(data.name).toUpperCase()}</Text>
+                <Text style={styles.orderDescription}>{(data.description).toUpperCase()}</Text>
+                <Text style={styles.orderDescription}>{data.weight} Kg</Text>
+                <View style={styles.deliveryHour}>
+                  <Feather name='clock' size={14} >
+                    <Text>{data.deliveryHour}</Text>
+                  </Feather>
+                </View>
+                <Text style={styles.orderStatus}>{data.status.toUpperCase()}</Text>
+              </View>
+            )
 
-          </View>
+          })}
+
         </ScrollView>
 
       <StatusBar style='inverted' backgroundColor='#5252A3' />
@@ -91,13 +106,14 @@ const styles = StyleSheet.create({
   scrollView: {
     width: '90%',
     height: '100%',
-    backgroundColor: 'pink',
   },
   order: {
     backgroundColor: theme.colors.green,
     width: '100%',
     height: 80,
     padding: 10,
+    marginBottom: 10,
+    borderRadius: 10
   },
   orderName: {
     fontSize: 14,
@@ -108,7 +124,13 @@ const styles = StyleSheet.create({
   },
   deliveryHour: {
     position: 'absolute',
-    marginRight: 0,
-    backgroundColor: 'red'
+    right: 10,
+    top: 20,
+  },
+  orderStatus: {
+    fontSize: 14,
+    position: 'absolute',
+    right: 10,
+    bottom: 20,
   }
 })
