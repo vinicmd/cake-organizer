@@ -4,6 +4,8 @@ import Feather  from 'react-native-vector-icons/Feather'
 
 import { HomeScreen } from './src/screens/Home'
 import { theme } from './src/global/styles/theme'
+import { StatusBar } from 'expo-status-bar'
+import { Balance } from './src/screens/Balance'
 
 export function Navigation () {
   const Tab = createBottomTabNavigator()
@@ -23,7 +25,7 @@ export function Navigation () {
           component={HomeScreen}
           options={{
             title: 'Início',
-            tabBarBadge: 3,
+            tabBarBadge: 8,
             tabBarIcon: ( { size, color }) => (
               <Feather name='home' size={size} color={color} />
             )
@@ -31,8 +33,8 @@ export function Navigation () {
         />
 
         <Tab.Screen
-          name='Saldo'
-          component={HomeScreen}
+          name='Balance'
+          component={Balance}
           options={{
             title: 'Saldo',
             tabBarIcon: ( { size, color }) => (
@@ -71,6 +73,7 @@ export function Navigation () {
           }}
         />
       </Tab.Navigator>
+      <StatusBar style='inverted' backgroundColor='#5252A3' />
     </NavigationContainer>
   )
 }
