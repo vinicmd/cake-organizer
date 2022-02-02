@@ -1,15 +1,13 @@
 import { View, StyleSheet, Text} from 'react-native'
-import { Loading } from '../components/Loading'
 import { Title } from '../components/Title'
+import { theme } from '../global/styles/theme'
 
-export function Balance () {
+export function Contacts () {
   return (
-    <View style={styles.main}>
+    <View style={styles.main} >
       <Title>
-        Saldo
+        Contatos
       </Title>
-
-      <Loading />
     </View>
   )
 }
