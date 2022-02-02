@@ -24,7 +24,7 @@ const titleStyles = StyleSheet.create({
   },
   titleText: {
     color: theme.colors.purple,
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: 'bold',
   },
 })

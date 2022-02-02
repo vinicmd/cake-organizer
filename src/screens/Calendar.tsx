@@ -21,9 +21,9 @@ export function Calendar () {
           months={['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']}
           previousTitle="Anterior"
           nextTitle="Próximo"
-          todayBackgroundColor={theme.colors.lightPurple}
+          todayBackgroundColor={theme.colors.grey}
           selectedDayColor={theme.colors.purple}
-          selectedDayTextColor="#000000"
+          selectedDayTextColor="#fff"
         />
         <Text >SELECTED DATE: {startDate}</Text>
       </View>

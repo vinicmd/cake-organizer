@@ -60,7 +60,7 @@ export function OrderDetail () {
       </TouchableOpacity>
 
       <View style={styles.details}>
-        <Text style={styles.text }>Preço: {order.price}</Text>
+        <Text style={styles.text }>Preço: R$ {order.price.toString()}</Text>
         <Text style={styles.text }>Cliente: {order.name}</Text>
         <Text style={styles.text }>Telefone: {maskNumber(order.telephone)} </Text>
         <Text style={styles.text }>Endereço: {order.address}</Text>
@@ -72,15 +72,15 @@ export function OrderDetail () {
         <TouchableOpacity
           onPress={() => Linking.openURL(`http://wa.me/55${order.telephone}`)}
         >
-          <Text>
-          <FontAwesome name='whatsapp' /> Enviar Mensagem
+          <Text style={styles.text } >
+          <FontAwesome name='whatsapp' size={styles.text.fontSize} /> Enviar Mensagem
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => Linking.openURL(`tel:${order.telephone}`)}
         >
-          <Text>
-          <FontAwesome name='phone-alt' /> Ligar parar {order.name}
+          <Text style={styles.text }>
+          <FontAwesome name='phone-alt' size={styles.text.fontSize} /> Ligar parar {order.name}
           </Text>
         </TouchableOpacity>
 
@@ -118,7 +118,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 18,
-    color: 'black'
+    color: 'black',
+    padding: 5
   },
 
 })
