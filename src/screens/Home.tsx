@@ -1,11 +1,13 @@
 import moment from 'moment';
 import { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity, RefreshControl } from 'react-native'
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, RefreshControl, Dimensions } from 'react-native'
 import Feather  from 'react-native-vector-icons/Feather'
+import FontAwesome  from 'react-native-vector-icons/FontAwesome5'
+
 import { Loading } from '../components/Loading';
 import { Title } from '../components/Title';
 import { theme } from '../global/styles/theme'
-
+import { statusColor } from '../utils/statusColor';
 import api from '../services/api';
 
 interface OrderItem {
@@ -16,23 +18,6 @@ interface OrderItem {
   deliveryHour: string
   status: string
 }
-
-const months: any = {
-  "01": "JANEIRO",
-  "02": "FEVEREIRO",
-  "03": "MARÇO",
-  "04": "ABRIL",
-  "05": "MAIO",
-  "06": "JUNHO",
-  "07": "JULHO",
-  "08": "AGOSTO",
-  "09": "SETEMBRO",
-  "10": "OUTUBRO",
-  "11": "NOVEMBRO",
-  "12": "DEZEMBRO",
-}
-
-
 
 export function HomeScreen({navigation} : any) {
 
@@ -51,6 +36,7 @@ export function HomeScreen({navigation} : any) {
     })
   }
 
+  //função executada quando for solicitado o refresh
   const onRefresh = () => {
     setRefreshing(true)
     setLoading(true)
@@ -58,22 +44,15 @@ export function HomeScreen({navigation} : any) {
     getOrders()
   }
 
+  //Retorna dados da aplicação. Só preciso que retorne uma vez
   useEffect(() => {
-    api.get('orders').then(response => {
-      setOrders(response.data)
-      setLoading(false)
-    })
+    getOrders()
   }, [])
 
-  const statusColor: any = {
-    'Aguardando': `${theme.colors.lightPurple}`,
-    'Cancelado': `${theme.colors.red}`,
-    'Atrasado': `${theme.colors.orange}`,
-    'Entregue': `${theme.colors.green}`
-  }
 
+  //função que faz a navegação para página de detalhes (useNavigation é meio estranho, eu confeço)
   function handleNavigateOrderDetail (id: number) {
-    navigation.navigate('OrderDetail', { id })
+    return navigation.navigate('OrderDetail', { id })
   }
 
   if (loading) {
@@ -103,24 +82,31 @@ export function HomeScreen({navigation} : any) {
         }
       >
 
-        {orders.map(order => {
-          return (
-            <TouchableOpacity
-              key={order.id}
-              style={[styles.order, {backgroundColor: `${statusColor[order.status]}`} ]}
-              onPress={ () => handleNavigateOrderDetail(order.id) }
-            >
-              <Text style={styles.orderName}>{(order.name).toUpperCase()}</Text>
-              <Text style={styles.orderDescription}>{(order.cakeDescription).toUpperCase()}</Text>
-              <Text style={styles.orderDescription}>{order.weight} Kg</Text>
-              <View style={styles.deliveryHour}>
-                <Feather name='clock' size={14} >
-                  <Text>  {order.deliveryHour}</Text>
-                </Feather>
-              </View>
-              <Text style={styles.orderStatus}>{order.status.toUpperCase()}</Text>
-            </TouchableOpacity>
-          )})
+        {orders.length === 0
+        ? (<View style={styles.condicional}>
+            <FontAwesome name='heart-broken' size={styles.condicionalText.fontSize} color={styles.condicionalText.color} /><Text style={styles.condicionalText}>Sem pedidos no momento.</Text>
+          </View>)
+        : orders.map(order => {
+            return (
+              <TouchableOpacity
+                key={order.id}
+                style={[styles.order, {backgroundColor: `${statusColor[order.status]}`} ]}
+                onPress={ () => handleNavigateOrderDetail(order.id) }
+              >
+                <View style={styles.firstRow}>
+                  <Text style={styles.orderName}>{(order.name).toUpperCase()}</Text>
+                  <Text style={styles.orderDescription}>{(order.cakeDescription).toUpperCase()}</Text>
+                  <Text style={styles.orderDescription}>{order.weight} Kg</Text>
+                </View>
+                <View style={styles.SecondRow}>
+                  <Feather name='clock' size={14} >
+                    <Text>  {order.deliveryHour}</Text>
+                  </Feather>
+                  <Text style={styles.orderStatus}>{order.status.toUpperCase()}</Text>
+                </View>
+              </TouchableOpacity>
+            )
+          })
         }
 
       </ScrollView>
@@ -131,8 +117,7 @@ export function HomeScreen({navigation} : any) {
 
 const styles = StyleSheet.create({
   main: {
-    width: '100%',
-    height: '100%',
+    flex: 1,
     alignItems: 'center',
   },
   dates: {
@@ -150,12 +135,24 @@ const styles = StyleSheet.create({
     width: '90%',
     height: '100%',
   },
+  condicional: {
+    width: '100%',
+    height: 300,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  condicionalText: {
+    fontSize: 20,
+    color: theme.colors.lightPurple,
+  },
   order: {
     width: '100%',
     height: 80,
     padding: 10,
     marginBottom: 10,
-    borderRadius: 10
+    borderRadius: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   orderName: {
     fontSize: 14,
@@ -164,16 +161,17 @@ const styles = StyleSheet.create({
   orderDescription: {
     fontSize: 14,
   },
-  deliveryHour: {
-    position: 'absolute',
-    right: 10,
-    top: 10,
+  firstRow: {
+    flexDirection: 'column',
+    justifyContent: 'space-between'
+  },
+  SecondRow: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
   },
   orderStatus: {
     fontSize: 14,
-    position: 'absolute',
-    right: 10,
-    bottom: 10,
     fontWeight: 'bold'
   }
 })

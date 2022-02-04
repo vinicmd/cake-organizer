@@ -1,10 +1,11 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import {  Dimensions, Linking, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {  Alert, Dimensions, Linking, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Feather from 'react-native-vector-icons/Feather'
 import FontAwesome from 'react-native-vector-icons/FontAwesome5'
 import { theme } from "../global/styles/theme";
 import api from "../services/api";
+import { maskNumber } from "../utils/maskNumber";
 
 interface OrderDetailRouteParams {
   id: number
@@ -26,10 +27,9 @@ interface Order {
 }
 
 
-export function OrderDetail () {
+export function OrderDetail ({ navigation}: any) {
   const route = useRoute()
   const params = route.params as OrderDetailRouteParams
-
   const [order, setOrder] = useState<Order>(Object)
 
   useEffect( () => {
@@ -38,12 +38,46 @@ export function OrderDetail () {
     })
   }, [params.id])
 
-  const navigation = useNavigation()
+  function handleCancelOrder(id: any) {
 
-  function maskNumber (number: string) {
-    const [, ddd, first, second] = /^([0-9]{2})([0-9]{5})([0-9]{4})/.exec(number) || ['', '', '','', ]
+  }
 
-    return `(${ddd}) ${first}-${second}`
+  function showCancelAlert () {
+    return (
+      Alert.alert(
+        'Você tem certeza?',
+        'Você tem certeza que deseja cancelar esse pedido?',
+
+        [
+          {
+            text: "Sim",
+            onPress: () => showCancelAlertDefinitely()
+          },
+          {
+            text: 'Não',
+          }
+        ]
+      )
+    )
+  }
+
+  function showCancelAlertDefinitely () {
+    return (
+      Alert.alert(
+        'Você tem certeza mesmo?',
+        'Última chance: Você realmente quer cancelar o pedido?',
+
+        [
+          {
+            text: "Sim",
+            onPress: () => console.log('sim definitivo')
+          },
+          {
+            text: 'Não',
+          }
+        ]
+      )
+    )
   }
 
   return (
@@ -60,32 +94,59 @@ export function OrderDetail () {
       </TouchableOpacity>
 
       <View style={styles.details}>
-        <Text style={styles.text }>Preço: R$ {order.price.toString()}</Text>
-        <Text style={styles.text }>Cliente: {order.name}</Text>
-        <Text style={styles.text }>Telefone: {maskNumber(order.telephone)} </Text>
-        <Text style={styles.text }>Endereço: {order.address}</Text>
-        <Text style={styles.text }>Descrição: {order.cakeDescription}</Text>
-        <Text style={styles.text }>Informação Adicional: {order.additional}</Text>
-        <Text style={styles.text }>Data de entrega: {order.deliveryDate}</Text>
-        <Text style={styles.text }>Horário de entrega: {order.deliveryHour}</Text>
-        <Text style={styles.text }>{order.status}</Text>
-        <TouchableOpacity
-          onPress={() => Linking.openURL(`http://wa.me/55${order.telephone}`)}
-        >
-          <Text style={styles.text } >
-          <FontAwesome name='whatsapp' size={styles.text.fontSize} /> Enviar Mensagem
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => Linking.openURL(`tel:${order.telephone}`)}
-        >
-          <Text style={styles.text }>
-          <FontAwesome name='phone-alt' size={styles.text.fontSize} /> Ligar parar {order.name}
-          </Text>
-        </TouchableOpacity>
+        <View>
+          <View style={styles.priceStatus}>
+            <Text style={styles.text }>PREÇO: R$ <Text>{order.price},00</Text></Text>
+            <Text style={styles.text }><Text style={{fontWeight: 'bold', fontSize: 20, textTransform: 'uppercase'}}>{order.status}</Text></Text>
+          </View>
+          <Text style={styles.text }>Nome: <Text style={styles.description }>{order.name}</Text></Text>
+          <Text style={styles.text }>Telefone: <Text style={styles.description }>{maskNumber(order.telephone)}</Text></Text>
+          <Text style={styles.text }>Endereço: <Text style={styles.description }>{order.address}</Text></Text>
+          <Text style={styles.text }>Desc. Pedido: <Text style={styles.description }>{order.cakeDescription}</Text></Text>
+          <Text style={styles.text }>Infos. Adicionais: <Text style={styles.description }>{order.additional}</Text></Text>
+          <Text style={styles.text }>Data de Entrega: <Text style={styles.description }>{order.deliveryDate}</Text></Text>
+          <Text style={styles.text }>Horário de Entrega: <Text style={styles.description }>{order.deliveryHour}</Text></Text>
+          <View style={styles.buttons} >
+            <TouchableOpacity
+              style={styles.whatsappButton}
+              onPress={() => Linking.openURL(`http://wa.me/55${order.telephone}`)}
+            >
+              <Text style={[styles.text, styles.button] } >
+              <FontAwesome name='whatsapp' size={styles.text.fontSize + 5} /> Enviar Mensagem
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.telephoneButton}
+              onPress={() => Linking.openURL(`tel:${order.telephone}`)}
+            >
+              <Text numberOfLines={1} style={[styles.text, styles.button] }>
+              <FontAwesome name='phone-alt' size={styles.text.fontSize} /> Ligar parar {(order.name)}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
 
+        <View style={styles.actionButtons}>
+          <TouchableOpacity
+            style={styles.editButton}
+            onPress={() => navigation.navigate('EditDetails', order.id)}
+          >
+            <Text style={[styles.text, styles.button] }>
+              <Feather name='edit' size={styles.text.fontSize}/> Editar
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.cancelButton}
+            onPress={showCancelAlert}
+          >
+            <Text style={[styles.text, styles.button] }>
+              <Feather name='x' size={styles.text.fontSize}/> Cancelar
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
+
   )
 }
 
@@ -93,6 +154,8 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
     alignItems: 'center',
+    paddingTop: 12,
+    paddingHorizontal: 12
   },
   goback: {
     width: Dimensions.get('window').width,
@@ -114,12 +177,74 @@ const styles = StyleSheet.create({
   },
   details: {
     width: Dimensions.get('window').width,
+    height: '90%',
     padding: 24,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+
+  },
+  priceStatus: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   text: {
     fontSize: 18,
     color: 'black',
-    padding: 5
+    paddingVertical: 2,
+    fontWeight: 'bold'
   },
+  description: {
+    fontWeight: 'normal',
+    textTransform: 'uppercase',
+  },
+  whatsappButton: {
+    margin: 5,
+    padding: 5,
+    backgroundColor: theme.colors.purple,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+  },
+  telephoneButton: {
+    margin: 5,
+    padding: 5,
+    backgroundColor: theme.colors.purple,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+  },
+  buttons: {
+    alignContent: 'center',
+    marginVertical: 10
+  },
+  button: {
+    color: theme.colors.white,
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
+  actionButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  editButton: {
+    width: 150,
+    margin: 5,
+    padding: 5,
+    backgroundColor: theme.colors.orange,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+  },
+  cancelButton: {
+    width: 150,
+    margin: 5,
+    padding: 5,
+    backgroundColor: theme.colors.red,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+  }
 
 })

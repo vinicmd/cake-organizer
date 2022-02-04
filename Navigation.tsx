@@ -12,6 +12,7 @@ import { AddOrder } from './src/screens/AddOrder'
 import { Calendar } from './src/screens/Calendar'
 import { Contacts } from './src/screens/Contacts'
 import { OrderDetail } from './src/screens/OrderDetail'
+import { EditDetails } from './src/screens/EditDetails'
 
 
 const Stack = createStackNavigator()
@@ -30,6 +31,13 @@ function OrderStack () {
       <Stack.Screen
         name='OrderDetail'
         component={OrderDetail}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name='EditDetails'
+        component={EditDetails}
         options={{
           headerShown: false,
         }}

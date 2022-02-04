@@ -1,41 +1,84 @@
 import { useState } from 'react'
-import { View, StyleSheet, Text} from 'react-native'
+import { View, StyleSheet, Text, Pressable, Alert, Modal} from 'react-native'
 import { Title } from '../components/Title'
-import CalendarPicker from 'react-native-calendar-picker'
 import { theme } from '../global/styles/theme'
 
 export function Calendar () {
-  const [selectedStartDate, setSelectedStartDate] = useState<any>(null)
 
-  const startDate = selectedStartDate ? selectedStartDate.format('YYYY-MM-DD').toString() : ''
-
+  const [modalVisible, setModalVisible] = useState(false)
   return (
-    <View style={styles.main} >
-      <Title>
-        Calendário
-      </Title>
-      <View>
-        <CalendarPicker
-          onDateChange={setSelectedStartDate}
-          weekdays={['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom']}
-          months={['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']}
-          previousTitle="Anterior"
-          nextTitle="Próximo"
-          todayBackgroundColor={theme.colors.grey}
-          selectedDayColor={theme.colors.purple}
-          selectedDayTextColor="#fff"
-        />
-        <Text >SELECTED DATE: {startDate}</Text>
-      </View>
+    <View style={styles.centeredView}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+
+          setModalVisible(!modalVisible)
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Hello World!</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}>Hide Modal</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+      <Pressable
+        style={[styles.button, styles.buttonOpen]}
+        onPress={() => setModalVisible(true)}
+      >
+        <Text style={styles.textStyle}>Show Modal</Text>
+      </Pressable>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  main: {
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
   },
-
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  }
 })

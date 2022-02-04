@@ -5,10 +5,7 @@ export function Title ( { children } : any) {
   return (
     <View style={titleStyles.title}>
       <Text style={titleStyles.titleText}>
-        {typeof children === 'string'
-          ? children.toUpperCase()
-          : children
-        }
+        {children}
       </Text>
     </View>
   )
@@ -26,5 +23,6 @@ const titleStyles = StyleSheet.create({
     color: theme.colors.purple,
     fontSize: 30,
     fontWeight: 'bold',
+    textTransform: 'uppercase',
   },
 })
