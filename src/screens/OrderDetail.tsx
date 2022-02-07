@@ -38,8 +38,11 @@ export function OrderDetail ({ navigation}: any) {
     })
   }, [params.id])
 
-  function handleCancelOrder(id: any) {
 
+  function handleChangeStatus() {
+    return (
+      api.patch(`/orders/${params.id}/cancel`,  )
+    )
   }
 
   function showCancelAlert () {

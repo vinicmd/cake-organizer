@@ -21,7 +21,6 @@ interface OrderItem {
 
 export function HomeScreen({navigation} : any) {
 
-
   const date = moment().format('DD [de] MMMM [de] YYYY')
 
   const [orders, setOrders ] = useState<OrderItem[]>([])
@@ -54,6 +53,7 @@ export function HomeScreen({navigation} : any) {
   function handleNavigateOrderDetail (id: number) {
     return navigation.navigate('OrderDetail', { id })
   }
+
 
   if (loading) {
     return <Loading />
