@@ -16,5 +16,3 @@ Aplicativo feito para gerenciar pedidos e emitir alertas para entregas de bolo.
 
  - React Native
  - Styled Components (em andamento)
- 
-  <img src="https://i.imgur.com/mOkRCr9.png" height="600" />
