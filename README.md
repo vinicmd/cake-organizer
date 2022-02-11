@@ -1,7 +1,11 @@
-![Logo](https://github.com/vinicmd/cake-organizer/blob/main/assets/favicon.png)
+<div align="center">
+  <img src="./src/assets/favicon.png" width="200" />
+</div>
 
 # Cake-Organizer
-![Aplication image](https://i.imgur.com/oSZj7vn_d.webp)
+<div align="center">
+  <img src="https://i.imgur.com/mOkRCr9.png" height="600" />
+</div>
 
 ## Organize seus pedidos de bolo com muito mais praticidade!
 
