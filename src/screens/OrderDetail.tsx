@@ -143,7 +143,7 @@ export function OrderDetail ({ navigation}: any) {
             onPress={showCancelAlert}
           >
             <Text style={[styles.text, styles.button] }>
-              <Feather name='x' size={styles.text.fontSize}/> Cancelar
+              <Feather name='settings' size={styles.text.fontSize}/> Status
             </Text>
           </TouchableOpacity>
         </View>
