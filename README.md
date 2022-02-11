@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./src/assets/favicon.png" width="200" />
+  <img src="https://raw.githubusercontent.com/vinicmd/cake-organizer/main/assets/icon.png" width="200" />
 </div>
 
 # Cake-Organizer
