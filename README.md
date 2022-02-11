@@ -1,4 +1,4 @@
-![Logo](https://raw.githubusercontent.com/vinicmd/cake-organizer/main/assets/icon.png)
+![Logo](https://github.com/vinicmd/cake-organizer/blob/main/assets/favicon.png)
 
 # Cake-Organizer
 ![Aplication image](https://i.imgur.com/oSZj7vn_d.webp)
