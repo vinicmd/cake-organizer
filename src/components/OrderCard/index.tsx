@@ -22,36 +22,3 @@ export function OrderCard() {
     </S.Container>
   )
 }
-
-{/*
-order: {
-  width: '100%',
-  height: 80,
-  padding: 10,
-  marginBottom: 10,
-  borderRadius: 10,
-  flexDirection: 'row',
-  justifyContent: 'space-between'
-},
-orderName: {
-  fontSize: 14,
-  fontWeight: 'bold',
-  },
-orderDescription: {
-  fontSize: 14,
-},
-firstRow: {
-  flexDirection: 'column',
-  justifyContent: 'space-between'
-},
-SecondRow: {
-  flexDirection: 'column',
-  justifyContent: 'space-between',
-  alignItems: 'flex-end',
-},
-orderStatus: {
-  fontSize: 14,
-  fontWeight: 'bold'
-}
-})
-*/}
