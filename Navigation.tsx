@@ -13,6 +13,7 @@ import { Calendar } from './src/screens/Calendar'
 import { Contacts } from './src/screens/Contacts'
 import { OrderDetail } from './src/screens/OrderDetail'
 import { EditDetails } from './src/screens/EditDetails'
+import { Orders } from './src/screens/Orders'
 
 
 const Stack = createStackNavigator()
@@ -70,7 +71,7 @@ function Tabs () {
 
       <Tab.Screen
         name='Balance'
-        component={Balance}
+        component={Orders}
         options={{
           title: 'Saldo',
           tabBarIcon: ( { size, color }) => (
@@ -117,7 +118,7 @@ export function Navigation () {
     <NavigationContainer>
       <Tabs />
 
-      <StatusBar style='inverted' backgroundColor='#5252A3' />
+      <StatusBar style='inverted' backgroundColor={`${theme.colors.purple}`} />
     </NavigationContainer>
   )
 }
