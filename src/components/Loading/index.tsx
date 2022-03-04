@@ -1,10 +1,11 @@
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native"
 import { theme } from "../../global/styles/theme"
+import * as S from "./styles"
 
 export const Loading = () => (
-  <View style={[styles.container, styles.horizontal]}>
-    <ActivityIndicator size={75} color={theme.colors.purple} />
-  </View>
+  <S.Container>
+    <S.Spinner />
+  </S.Container>
 )
 
 const styles = StyleSheet.create({

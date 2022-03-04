@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {  Alert, Dimensions, Linking, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Feather from 'react-native-vector-icons/Feather'
 import FontAwesome from 'react-native-vector-icons/FontAwesome5'
+import { Loading } from "../components/Loading";
 import { theme } from "../global/styles/theme";
 import api from "../services/api";
 import { maskNumber } from "../utils/maskNumber";
@@ -27,15 +28,22 @@ interface Order {
 }
 
 
-export function OrderDetail ({ navigation}: any) {
-  const route = useRoute()
-  const params = route.params as OrderDetailRouteParams
+export function OrderDetail ({ navigation }: any) {
   const [order, setOrder] = useState<Order>(Object)
 
+  const [loading, setLoading] = useState(true)
+
+  const route = useRoute()
+  const params = route.params as OrderDetailRouteParams
+
   useEffect( () => {
-    api.get(`orders/${params.id}`).then(response => {
-      setOrder(response.data)
-    })
+   function getOrder() {
+      api.get(`orders/${params.id}`).then(response => {
+        setOrder(response.data)
+        setLoading(false)
+      })
+    }
+    getOrder()
   }, [params.id])
 
 
@@ -64,6 +72,8 @@ export function OrderDetail ({ navigation}: any) {
     )
   }
 
+
+
   function showCancelAlertDefinitely () {
     return (
       Alert.alert(
@@ -82,6 +92,9 @@ export function OrderDetail ({ navigation}: any) {
       )
     )
   }
+  if(loading){
+    return <Loading />
+  }
 
   return (
     <View style={styles.main}>
@@ -92,7 +105,7 @@ export function OrderDetail ({ navigation}: any) {
         <Feather name='arrow-left' style={styles.gobackIcon} >
         </Feather>
         <Text style={styles.orderTitle}>
-          PEDIDO NÚMERO: {order.id}
+          PEDIDO NÚMERO: {params.id}
         </Text>
       </TouchableOpacity>
 
@@ -194,7 +207,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     color: 'black',
-    paddingVertical: 2,
+    paddingVertical: 4,
     fontWeight: 'bold'
   },
   description: {

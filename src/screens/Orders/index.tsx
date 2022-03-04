@@ -1,39 +1,14 @@
+import * as S from './styles'
+import { useEffect, useState } from 'react'
+import { RefreshControl } from 'react-native'
+import moment from 'moment'
+
 import { OrderCard } from '../../components/OrderCard'
 import { Title } from '../../components/Title'
-import * as S from './styles'
+import { Loading } from '../../components/Loading'
 
-export function Orders(){
-  return (
-    <S.Container>
-      <Title>
-        Pedidos
-      </Title>
-
-      <S.Dates>
-        <S.CurrentDate>
-          03 de Março de 2022
-        </S.CurrentDate>
-      </S.Dates>
-
-      <S.Cards>
-        <OrderCard />
-      </S.Cards>
-    </S.Container>
-  )
-}
-
-{/*
-  import moment from 'moment';
-import { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity, RefreshControl, Dimensions } from 'react-native'
-import Feather  from 'react-native-vector-icons/Feather'
-import FontAwesome  from 'react-native-vector-icons/FontAwesome5'
-
-import { Loading } from '../components/Loading';
-import { Title } from '../components/Title';
-import { theme } from '../global/styles/theme'
-import { statusColor } from '../utils/statusColor';
-import api from '../services/api';
+import api from '../../services/api'
+import { useNavigation } from '@react-navigation/native'
 
 interface OrderItem {
   id: number
@@ -44,13 +19,12 @@ interface OrderItem {
   status: string
 }
 
-export function HomeScreen({navigation} : any) {
-
-  const date = moment().format('DD [de] MMMM [de] YYYY')
-
+export function Orders({navigation}: any){
   const [orders, setOrders ] = useState<OrderItem[]>([])
   const [loading, setLoading] = useState(true)
   const [refreshing, setRefreshing] = useState(false)
+
+  const date = moment().format('DD [de] MMMM [de] YYYY')
 
   function getOrders () {
     api.get('orders').then(response => {
@@ -71,33 +45,27 @@ export function HomeScreen({navigation} : any) {
   //Retorna dados da aplicação. Só preciso que retorne uma vez
   useEffect(() => {
     getOrders()
-  }, [])
+  }, [loading])
 
-
-  //função que faz a navegação para página de detalhes (useNavigation é meio estranho, eu confeço)
-  function handleNavigateOrderDetail (id: number) {
-    return navigation.navigate('OrderDetail', { id })
-  }
-
-
-  if (loading) {
+  if(loading) {
     return <Loading />
   }
 
+  function handleNavigateOrderDetail(id: number) {
+    return navigation.navigate('OrderDetail', { id })
+  }
+
   return (
-    <View style={styles.main}>
+    <S.Container>
       <Title>
-        PEDIDOS
+        Pedidos
       </Title>
 
-      <View style={styles.dates}>
-        <Text style={styles.currentDate}>
-          {date}
-        </Text>
-      </View>
+      <S.Dates>
+        <S.CurrentDate>{date}</S.CurrentDate>
+      </S.Dates>
 
-      <ScrollView
-        style={styles.scrollView}
+      <S.Cards
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl
@@ -106,99 +74,30 @@ export function HomeScreen({navigation} : any) {
           />
         }
       >
-
-        {orders.length === 0
-        ? (<View style={styles.condicional}>
-            <FontAwesome name='heart-broken' size={styles.condicionalText.fontSize} color={styles.condicionalText.color} /><Text style={styles.condicionalText}>Sem pedidos no momento.</Text>
-          </View>)
-        : orders.map(order => {
+        {
+        orders.length === 0
+          ? (
+            <S.FailCard>
+                <S.Icon >
+                  <S.FailText> Sem pedidos no momento.</S.FailText>
+                </S.Icon>
+            </S.FailCard>
+          )
+          : orders.map(order => {
             return (
-              <TouchableOpacity
+              <OrderCard
                 key={order.id}
-                style={[styles.order, {backgroundColor: `${statusColor[order.status]}`} ]}
-                onPress={ () => handleNavigateOrderDetail(order.id) }
-              >
-                <View style={styles.firstRow}>
-                  <Text style={styles.orderName}>{(order.name).toUpperCase()}</Text>
-                  <Text style={styles.orderDescription}>{(order.cakeDescription).toUpperCase()}</Text>
-                  <Text style={styles.orderDescription}>{order.weight} Kg</Text>
-                </View>
-                <View style={styles.SecondRow}>
-                  <Feather name='clock' size={14} >
-                    <Text>  {order.deliveryHour}</Text>
-                  </Feather>
-                  <Text style={styles.orderStatus}>{order.status.toUpperCase()}</Text>
-                </View>
-              </TouchableOpacity>
+                name={order.name}
+                cakeDescription={order.cakeDescription}
+                weight={order.weight}
+                deliveryHour={order.deliveryHour}
+                status={order.status}
+                onPress={() => handleNavigateOrderDetail(order.id)}
+              />
             )
           })
         }
-
-      </ScrollView>
-    </View>
+      </S.Cards>
+    </S.Container>
   )
-
 }
-
-const styles = StyleSheet.create({
-  main: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  dates: {
-    width: '90%',
-    height: '5%',
-    flexDirection:'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  currentDate: {
-    fontSize: 24,
-    color: theme.colors.purple,
-  },
-  scrollView: {
-    width: '90%',
-    height: '100%',
-  },
-  condicional: {
-    width: '100%',
-    height: 300,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  condicionalText: {
-    fontSize: 20,
-    color: theme.colors.lightPurple,
-  },
-  order: {
-    width: '100%',
-    height: 80,
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  orderName: {
-    fontSize: 14,
-    fontWeight: 'bold',
-   },
-  orderDescription: {
-    fontSize: 14,
-  },
-  firstRow: {
-    flexDirection: 'column',
-    justifyContent: 'space-between'
-  },
-  SecondRow: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-  },
-  orderStatus: {
-    fontSize: 14,
-    fontWeight: 'bold'
-  }
-})
-
-*/}

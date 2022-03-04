@@ -1,23 +1,43 @@
 import * as S from './styles'
 import Feather  from 'react-native-vector-icons/Feather'
+import { statusColor } from '../../utils/statusColor'
 
+interface OrderProps {
+  name: string
+  cakeDescription: string
+  weight: number
+  deliveryHour: string
+  status: string
+  onPress: () => void
+}
 
-
-export function OrderCard() {
+export function OrderCard({
+  name,
+  cakeDescription,
+  weight,
+  deliveryHour,
+  status,
+  onPress,
+  ...rest
+}: OrderProps) {
   return(
-    <S.Container>
+    <S.Container
+      style={{backgroundColor: `${statusColor[status]}`}}
+      onPress={onPress}
+      {...rest}
+    >
       <S.CakeInfo>
-        <S.Name>VINICIUS DUARTE</S.Name>
-        <S.Description>Bolo Alpino com trufas</S.Description>
-        <S.CakeWeight>2 Kg</S.CakeWeight>
+        <S.Name>{name}</S.Name>
+        <S.Description>{cakeDescription}</S.Description>
+        <S.CakeWeight>{weight} Kg</S.CakeWeight>
       </S.CakeInfo>
       <S.DeliveryInfo>
         <Feather name='clock' size={14}>
           <S.DeliveryHour>
-            {' 16:30'}
+            {` ${deliveryHour}`}
           </S.DeliveryHour>
         </Feather>
-        <S.Status>Entregue</S.Status>
+        <S.Status>{status}</S.Status>
       </S.DeliveryInfo>
     </S.Container>
   )

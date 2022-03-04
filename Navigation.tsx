@@ -6,14 +6,13 @@ import { StatusBar } from 'expo-status-bar'
 
 import { theme } from './src/global/styles/theme'
 
-import { HomeScreen } from './src/screens/Home'
+import { Orders } from './src/screens/Orders'
 import { Balance } from './src/screens/Balance'
 import { AddOrder } from './src/screens/AddOrder'
 import { Calendar } from './src/screens/Calendar'
 import { Contacts } from './src/screens/Contacts'
 import { OrderDetail } from './src/screens/OrderDetail'
 import { EditDetails } from './src/screens/EditDetails'
-import { Orders } from './src/screens/Orders'
 
 
 const Stack = createStackNavigator()
@@ -24,7 +23,7 @@ function OrderStack () {
     <Stack.Navigator>
       <Stack.Screen
         name='HomeScreen'
-        component={HomeScreen}
+        component={Orders}
         options={{
           headerShown: false,
         }}
@@ -71,7 +70,7 @@ function Tabs () {
 
       <Tab.Screen
         name='Balance'
-        component={Orders}
+        component={Balance}
         options={{
           title: 'Saldo',
           tabBarIcon: ( { size, color }) => (

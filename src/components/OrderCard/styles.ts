@@ -1,15 +1,18 @@
-import { TouchableOpacity } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+import { RFValue } from 'react-native-responsive-fontsize'
+import { TouchableOpacity } from 'react-native'
 
 export const Container = styled(TouchableOpacity)`
   width: 100%;
   height: ${RFValue(80)}px;
+
   padding: 10px;
   margin-bottom: 12px;
   border-radius: 12px;
+
   flex-direction: row;
   justify-content: space-between;
+  background: grey;
 `
 
 export const CakeInfo = styled.View`

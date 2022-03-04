@@ -94,15 +94,15 @@ export function HomeScreen({navigation} : any) {
                 onPress={ () => handleNavigateOrderDetail(order.id) }
               >
                 <View style={styles.firstRow}>
-                  <Text style={styles.orderName}>{(order.name).toUpperCase()}</Text>
-                  <Text style={styles.orderDescription}>{(order.cakeDescription).toUpperCase()}</Text>
+                  <Text style={styles.orderName}>{(order.name)}</Text>
+                  <Text style={styles.orderDescription}>{(order.cakeDescription)}</Text>
                   <Text style={styles.orderDescription}>{order.weight} Kg</Text>
                 </View>
                 <View style={styles.SecondRow}>
                   <Feather name='clock' size={14} >
                     <Text>  {order.deliveryHour}</Text>
                   </Feather>
-                  <Text style={styles.orderStatus}>{order.status.toUpperCase()}</Text>
+                  <Text style={styles.orderStatus}>{order.status}</Text>
                 </View>
               </TouchableOpacity>
             )
