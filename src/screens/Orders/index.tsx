@@ -3,12 +3,11 @@ import { useEffect, useState } from 'react'
 import { RefreshControl } from 'react-native'
 import moment from 'moment'
 
+import api from '../../services/api'
+
 import { OrderCard } from '../../components/OrderCard'
 import { Title } from '../../components/Title'
 import { Loading } from '../../components/Loading'
-
-import api from '../../services/api'
-import { useNavigation } from '@react-navigation/native'
 
 interface OrderItem {
   id: number

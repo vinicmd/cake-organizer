@@ -117,7 +117,7 @@ export function Navigation () {
     <NavigationContainer>
       <Tabs />
 
-      <StatusBar style='inverted' backgroundColor={`${theme.colors.purple}`} />
+      <StatusBar style='inverted' backgroundColor='#5252A3' />
     </NavigationContainer>
   )
 }

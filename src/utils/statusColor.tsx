@@ -4,5 +4,6 @@ export const statusColor: any = {
   'Aguardando': `${theme.colors.lightPurple}`,
   'Cancelado': `${theme.colors.red}`,
   'Atrasado': `${theme.colors.orange}`,
-  'Entregue': `${theme.colors.green}`
+  'Entregue': `${theme.colors.green}`,
+  'Aguardando Cliente': `${theme.colors.grey}`
 }

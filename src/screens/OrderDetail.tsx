@@ -1,12 +1,12 @@
-import { useRoute } from "@react-navigation/native";
-import { useEffect, useState } from "react";
-import {  Alert, Dimensions, Linking, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useRoute } from '@react-navigation/native'
+import { useEffect, useState } from 'react'
+import {  Alert, Dimensions, Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Feather from 'react-native-vector-icons/Feather'
 import FontAwesome from 'react-native-vector-icons/FontAwesome5'
-import { Loading } from "../components/Loading";
-import { theme } from "../global/styles/theme";
-import api from "../services/api";
-import { maskNumber } from "../utils/maskNumber";
+import { Loading } from '../components/Loading'
+import { theme } from '../global/styles/theme'
+import api from '../services/api'
+import { maskNumber } from '../utils/maskNumber'
 
 interface OrderDetailRouteParams {
   id: number
@@ -61,7 +61,7 @@ export function OrderDetail ({ navigation }: any) {
 
         [
           {
-            text: "Sim",
+            text: 'Sim',
             onPress: () => showCancelAlertDefinitely()
           },
           {
@@ -82,7 +82,7 @@ export function OrderDetail ({ navigation }: any) {
 
         [
           {
-            text: "Sim",
+            text: 'Sim',
             onPress: () => console.log('sim definitivo')
           },
           {
